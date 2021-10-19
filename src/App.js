@@ -1,19 +1,19 @@
-import React, { Component } from "react";
-import Section from "./components/Section";
-import ContactForm from "./components/ContactForm";
-import Filter from "./components/Filter";
-import ContactsList from "./components/ContactsList";
-import "./App.css";
+import React, { Component } from 'react';
+import Section from './components/Section';
+import ContactForm from './components/ContactForm';
+import Filter from './components/Filter';
+import ContactsList from './components/ContactsList';
+import './App.css';
 
 class App extends Component {
   state = {
     contacts: [],
-    filter: "",
+    filter: '',
   };
 
   componentDidMount() {
     console.log(`MOUNT`);
-    const localContacts = localStorage.getItem("contacts");
+    const localContacts = localStorage.getItem('contacts');
     const parseContacts = JSON.parse(localContacts);
     if (parseContacts) {
       this.setState({ contacts: parseContacts });
@@ -22,16 +22,16 @@ class App extends Component {
   componentDidUpdate(prevProps, prevState) {
     console.log(`UPDATE`);
     if (prevState.contacts !== this.state.contacts) {
-      localStorage.setItem("contacts", JSON.stringify(this.state.contacts));
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
     }
   }
 
-  getChange = (event) => {
+  getChange = event => {
     const { name, value } = event.currentTarget;
     this.setState({ [name]: value });
   };
 
-  addContact = (contact) => {
+  addContact = contact => {
     if (!this.checkContact(contact.name)) {
       this.setState(({ contacts }) => ({
         contacts: [contact, ...contacts],
@@ -41,8 +41,8 @@ class App extends Component {
     }
   };
 
-  checkContact = (name) => {
-    return this.state.contacts.find((contact) => {
+  checkContact = name => {
+    return this.state.contacts.find(contact => {
       return contact.name.toLocaleLowerCase() === name.toLocaleLowerCase();
     });
   };
@@ -52,26 +52,24 @@ class App extends Component {
     const normalizedFilter = filter.toLocaleLowerCase();
 
     if (filter.length) {
-      return contacts.filter((contact) =>
-        contact.name.toLowerCase().includes(normalizedFilter)
+      return contacts.filter(contact =>
+        contact.name.toLowerCase().includes(normalizedFilter),
       );
     } else {
       return contacts;
     }
   };
 
-  deleteContact = (contactId) => {
-    this.setState((prevState) => ({
-      contacts: prevState.contacts.filter(
-        (contact) => contact.id !== contactId
-      ),
+  deleteContact = contactId => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
     }));
   };
 
   render() {
     return (
       <div>
-        <h1 className="header__main">React HW 003 Phonebook</h1>
+        <h1 className="header__main">React HW 004 Phonebook</h1>
         <Section title="Phonebook">
           <ContactForm onSubmit={this.addContact} />
         </Section>
